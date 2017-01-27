@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+<link rel='stylesheet' href='/stylesheets/bootstrap-theme.min.css' />
+<link rel='stylesheet' href='/stylesheets/signup.css' />
+<head><center>
+<div class = "page-header" style="border-bottom:none">
+      <h4><%= title %>
+</div>
+</center>
+<head>
+<body>
+<center>
+<form action="/signup/details" method="post">
+Name:<input type="text" name="name" required class ="form-control">
+Email:<input type="text" name="emailId" required  class ="form-control">
+Password:<input type="password" name="password" required class ="form-control">
+Phone No:<input type="text" name="phoneNo" class ="form-control">
+ Role :<select id="dropdown" name="role"  class ="form-control">
+<option value="user" >User</option>  
+</select><br>
+<input type="submit" name="submit"  class="btn btn-success" value="Signup">
+
+   <a href="/login">Login</a> <%
+	if(typeof error != 'undefined') {
+%>
+	<p><%- JSON.stringify(error)%></p>
+	<%
+	} else if(typeof msg !='undefined') {
+	%>
+	<p><%- JSON.stringify(msg)%></p>
+	<%}%>
+</center>
+</form>
+</div>
+<script src="js/jquery-3.1.1.min.js"></script>
+ <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

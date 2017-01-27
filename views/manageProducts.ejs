@@ -1,0 +1,136 @@
+<html>
+<head>
+<link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+  <link rel='stylesheet' href='/stylesheets/bootstrap-theme.min.css'/>
+  <link rel='stylesheet' href='/stylesheets/manageProducts.css'/>
+</head>
+<body>
+<center><h4>Products List<h4></center><br>
+<div class="container">
+<center>
+      <table class="table table-responsive" border="1">
+      <tr>
+      <th>ProductId</th>
+      <th>Name</th> 
+      <th>Description</th>
+      <th>Price</th>
+      <th>Action</th>
+      </tr>
+      <% for(var i=0;i<productDetails.length;i++){ %>
+       <tr>
+       <td><%= productDetails[i].productId %></td>
+       <td><%= productDetails[i].name%></td> 
+       <td><%= productDetails[i].description %></td>
+       <td><%= productDetails[i].price %></td>
+       <td> <button type="button" id="productId" onclick="editProduct(this)" class="btn btn-warning btn-sm" data-toggle="modal" data-stationName="<%= productDetails[i].productId %>" data-target="#myModal">Edit</button>
+      <button type="button" class="btn btn-danger btn-sm" onclick="deleteProduct(this)" >Delete</button></td>
+       </tr>
+       <%}%>
+       </table>
+       </center>
+   <div class="col-md-6" style="margin-left:-18px;margin-top:-206px">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Add Product</button></div>
+  <div class="modal fade bs-example-modal-lg" tabindex="-1" id="modal1"role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" style="margin-left:275px">
+    <div class="modal-content">
+ <center>
+ <div class="modal-body">
+  <form action="/admin/product" method="post" name="myform" role="form">
+  <div class="modal-header">
+          <center><h4>Product Details</h4></center></div>
+  Product Id:<input type="text"class="form-control" name="productId" required>
+  Product Name:<input type="text"class="form-control" name="name">
+  Description:<input type="text"class="form-control" name="description">
+  Price:<input type="text" name="price"class="form-control"><br>
+  <div class="modal-footer">
+  <input type="submit" class="btn btn-success" name="submit" value="submit">
+  <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+  <div>
+  </form>
+  </div>
+   </center>
+  </div>
+  </div>
+</div>
+</div>
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog" style="margin-left:325px">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <center><h5>Update the product</h5></center>
+          <center>
+        <div class="modal-body">
+        <input type="hidden" id="productId1" name="productId1" />
+         Product Name: <input type="text"id="productName1" class="form-control" name="name">
+         Description: <input type="text" id="description1" class="form-control" name="description">
+         Price:<input type="text" id="price1" class="form-control" name="price">
+        </div>
+        <center>
+        <div class="modal-footer">
+        <button type="button" onclick="updateProduct(this)"  class="btn btn-default" data-dismiss="modal" >Update</button>
+          <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+<script src="/js/jquery-3.1.1.min.js"></script>
+ <script src="/js/bootstrap.min.js"></script>
+</body>
+<html>
+<script>
+function editProduct(element){
+ var productId = element.getAttribute('data-stationName');
+ $('#productId1').val(productId);
+
+ }
+ 
+ function deleteProduct(element){
+      var productId =  $('#productId').val();
+      $.ajax({
+				 url: "/admin/delete",
+				 type: "POST",
+				 data: {
+				     productId:productId,
+				 },
+				 dataType: "JSON",
+				 success: function(response) {
+				  alert(productId);
+                	 alert(response.msg);
+                 },
+				 error: function (response) {
+					alert(response.error);
+				 }
+			 });
+ }
+ function updateProduct(){
+            var productId =  $('#productId').val();
+			var cProductName =   $('#productName1').val();
+			 var cDescription =   $('#description1').val();
+			 var cPrice =   $('#price1').val();
+
+			 $.ajax({
+				 url: "/admin/update",
+				 type: "POST",
+				 data: {
+				     productId:productId,
+					 name: cProductName,
+					 description:cDescription,
+					 price: cPrice
+				 },
+				 dataType: "JSON",
+				 success: function(response) {
+                	 alert(response.msg);
+                	 location.reload();
+                 },
+				 error: function (response) {
+					alert(response.error);
+				 }
+			 });
+		}
+		function closeModal(){
+		$('.modal fade bs-example-modal-lg').modal('hide');
+		}
+</script>

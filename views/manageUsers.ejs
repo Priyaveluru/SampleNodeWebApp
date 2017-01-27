@@ -1,0 +1,31 @@
+<html>
+<head>
+<link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+  <link rel='stylesheet' href='/stylesheets/bootstrap-theme.min.css'/>
+  <link rel='stylesheet' href='/stylesheets/admin.css'/>
+</head>
+<body>
+
+<div class="container">
+  
+     <center><h4>Users List<h4><br>
+      <table class="table table-responsive" border="1">
+      <tr>
+      <th>Username</th>
+      <th>Email</th> 
+      <th>Phone No</th>
+      </tr>
+      <% for(var i=0;i<details.length;i++){ %>
+       <tr>
+       <td><%= details[i].userName %></td>
+       <td><%= details[i].emailId %></td> 
+       <td><%= details[i].phoneNo %></td>
+       </tr>
+       <%}%>
+       </table>
+       </center>
+       </div>
+ <script src="js/jquery-3.1.1.min.js"></script>
+ <script src="js/bootstrap.min.js"></script>
+</body>
+<html>
